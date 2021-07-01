@@ -1,23 +1,30 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.util.Random;
 
 public class Test {
 
 
     public static void main(String[] args) {
-        Random rand = new Random();
-
-        String number = "ACC";
-        final String DatabaseURL = "jdbc:ucanaccess://C:\\Users\\Emmanuel_Chilombo\\IdeaProjects\\ATM System\\DataModel\\AtmDatabase.accdb";
 
         try {
-            Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
-            Connection connection = DriverManager.getConnection(DatabaseURL);
-            System.out.println("Connected Successfully");
+            Class.forName(FinalFiles.dataBaseDriver);
+            Connection connection = DriverManager.getConnection(FinalFiles.LinuxDatabaseURL);
+            PreparedStatement preparedStatement = connection.prepareStatement("Insert Into Balance Values(?,?)");
+            preparedStatement.setString(1, FinalFiles.testAcc);
+            preparedStatement.setInt(2, 1000);
+            preparedStatement.executeUpdate();
+
+
         }catch (Exception exception){
             System.out.println(exception);
+
         }
+
+
+
+
 
 
 /*

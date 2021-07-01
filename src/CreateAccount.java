@@ -16,11 +16,13 @@ public class CreateAccount {
     // upon creation, the users details are printed to a text file
     // returns a number
 
-    public String AccountCreation(String fullName, int regNumber, String address, String phoneNumber, String password,
+
+
+    public static String AccountCreation(String fullName, int regNumber, String address, String phoneNumber, String password,
                                   String reEnterPassword){
 
         // All main variable in the function
-        final String DatabaseURL = "jdbc:ucanaccess://C:\\Users\\Emmanuel_Chilombo\\IdeaProjects\\AtmSystem\\DataModel\\AtmDatabase.accdb";
+
         final int upperBound = 10;
         Random rand = new Random();
         String number = "ACC";
@@ -37,7 +39,7 @@ public class CreateAccount {
         try {
             // Database Statements
             Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
-            Connection connection = DriverManager.getConnection(DatabaseURL);
+            Connection connection = DriverManager.getConnection(FinalFiles.LinuxDatabaseURL);
             PreparedStatement dataStatement = connection.prepareStatement("INSERT INTO Client VALUES(?,?,?,?,?)");
             PreparedStatement dataStatement2 = connection.prepareStatement("INSERT INTO Pass VALUES(?,?)");
 
@@ -78,6 +80,12 @@ public class CreateAccount {
 
         }
        return number;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(AccountCreation("Emmanuel Chilombo", 773782, "Kaya", "928922",
+                "Chiloest123", "Chiloest123"));
+
     }
 
 }
