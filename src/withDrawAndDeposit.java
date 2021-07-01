@@ -10,8 +10,10 @@ public class withDrawAndDeposit {
 
     public static String Withdraw(int amount, String accountNumber){
         int bal = 0;
-        int returnAmount = 0;
+        int withdrawAmount = 0;
         String returnVal = "";
+
+        //grab our balance
         try {
             Class.forName(FinalFiles.dataBaseDriver);
             Connection connection = DriverManager.getConnection(FinalFiles.LinuxDatabaseURL);
@@ -28,20 +30,29 @@ public class withDrawAndDeposit {
             System.out.println(exception);
 
         }
-
+        //manipulate our Balance Provided its greater than 0
         if (bal > 0){
-            returnAmount = bal - amount;
-            returnVal = amount + " Has been withdrawn, Your new Balance is: " + returnAmount;
+            bal = bal - amount;
+            returnVal = amount + " Has been withdrawn, Your new Balance is: " + bal;
         }else {
             System.out.println("You Cannot withdraw anymore, Your Balance is 0");
         }
         try{
             Class.forName(FinalFiles.dataBaseDriver);
             Connection connection = DriverManager.getConnection(FinalFiles.LinuxDatabaseURL);
+            //statement to update the balance
             PreparedStatement preparedStatement = connection.prepareStatement("Update Balance SET Balance = ? WHERE accountNumber=?");
-            preparedStatement.setInt(1, returnAmount);
+            preparedStatement.setInt(1, bal);
             preparedStatement.setString(2, accountNumber);
+
+            //Statement to update the Withdraw table
+            PreparedStatement preparedStatement2 = connection.prepareStatement("insert into Withdraw VALUES(?, ?, ?)");
+            preparedStatement2.setString(1, accountNumber);
+            preparedStatement2.setInt(2, amount);
+            preparedStatement2.setString(3, FinalFiles.Date);
+
             preparedStatement.executeUpdate();
+            preparedStatement2.executeUpdate();
 
         }catch (Exception exception){
             System.out.println(exception);
@@ -68,32 +79,53 @@ public class withDrawAndDeposit {
     }
 
     public static String deposit(int amount, String accountNumber){
-        int balance = 0;
+        int bal = 0;
+        String returnVal = "";
+
+        //grab our balance
         try {
             Class.forName(FinalFiles.dataBaseDriver);
             Connection connection = DriverManager.getConnection(FinalFiles.LinuxDatabaseURL);
-            PreparedStatement preparedStatement = connection.prepareStatement("Update Balance SET Balance = ? WHERE accountNumber = ?");
-            PreparedStatement balanceQuery = connection.prepareStatement("SELECT Balance FROM Balance WHERE accountNumber = ? ");
-            preparedStatement.setInt(1, amount);
-            preparedStatement.setString(2, accountNumber);
-            preparedStatement.executeUpdate();
-
-            balanceQuery.setString(1, accountNumber);
-
-            ResultSet resultSet = balanceQuery.executeQuery();
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT Balance FROM Balance WHERE accountNumber = ? ");
+            preparedStatement.setString(1, accountNumber);
+            ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()){
-                balance = resultSet.getInt("Balance");
+                bal = resultSet.getInt("Balance");
             }
+
 
         }catch (Exception exception){
             System.out.println(exception);
 
         }
+        //Increase the Balance by the amount deposited
+        bal = bal + amount;
 
-        return "Deposited " + amount + " into account " + accountNumber + " Your New Balance is: " + balance;
+        try{
+            Class.forName(FinalFiles.dataBaseDriver);
+            Connection connection = DriverManager.getConnection(FinalFiles.LinuxDatabaseURL);
+            //statement to update the balance
+            PreparedStatement preparedStatement = connection.prepareStatement("Update Balance SET Balance = ? WHERE accountNumber=?");
+            preparedStatement.setInt(1, bal);
+            preparedStatement.setString(2, accountNumber);
+
+            //Statement to update the deposit table
+            PreparedStatement preparedStatement2 = connection.prepareStatement("insert into deposits VALUES(?, ?, ?)");
+            preparedStatement2.setString(1, accountNumber);
+            preparedStatement2.setInt(2, amount);
+            preparedStatement2.setString(3, FinalFiles.Date);
+
+            preparedStatement.executeUpdate();
+            preparedStatement2.executeUpdate();
+
+        }catch (Exception exception){
+            System.out.println(exception);
+        }
+        returnVal = amount + " Has been deposited into Your account, Your Balance is: " + bal;
+        return returnVal;
+
     }
-
 
 
    /*
@@ -105,6 +137,6 @@ public class withDrawAndDeposit {
 
 
     public static void main(String[] args) {
-        System.out.println(deposit(100, FinalFiles.testAcc));
+        System.out.println(deposit(120, FinalFiles.testAcc));
     }
 }

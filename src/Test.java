@@ -10,7 +10,7 @@ public class Test {
 
         try {
             Class.forName(FinalFiles.dataBaseDriver);
-            Connection connection = DriverManager.getConnection(FinalFiles.LinuxDatabaseURL);
+            Connection connection = DriverManager.getConnection(FinalFiles.WindowsDatabaseURL);
             PreparedStatement preparedStatement = connection.prepareStatement("Insert Into Balance Values(?,?)");
             preparedStatement.setString(1, FinalFiles.testAcc);
             preparedStatement.setInt(2, 1000);
@@ -21,6 +21,10 @@ public class Test {
             System.out.println(exception);
 
         }
+
+
+
+        System.out.println(FinalFiles.time());
 
 
 
