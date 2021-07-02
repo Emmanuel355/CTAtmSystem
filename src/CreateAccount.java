@@ -31,11 +31,7 @@ public class CreateAccount {
         // Generate a System generated Account number
 
 
-        for (int i = 0; i < 11; i++){
-            int int_random = rand.nextInt(upperBound);
-            String kaya = Integer.toString(int_random);
-            number = number + kaya;
-        }
+
         try {
             // Database Statements
             Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
@@ -43,7 +39,12 @@ public class CreateAccount {
             PreparedStatement dataStatement = connection.prepareStatement("INSERT INTO Client VALUES(?,?,?,?,?)");
             PreparedStatement dataStatement2 = connection.prepareStatement("INSERT INTO Pass VALUES(?,?)");
 
-            if (password == reEnterPassword){
+            if (password.equals(reEnterPassword)){
+                    for (int i = 0; i < 11; i++){
+                        int int_random = rand.nextInt(upperBound);
+                        String kaya = Integer.toString(int_random);
+                        number = number + kaya;
+                    }
                     // Enter Data into the Database provided the user Has entered the correct Password and Confirmation Passwords
 
                     dataStatement.setString(1, number);
@@ -81,11 +82,4 @@ public class CreateAccount {
         }
        return number;
     }
-
-    public static void main(String[] args) {
-        System.out.println(AccountCreation("Emmanuel Chilombo", 773782, "Kaya", "928922",
-                "Chiloest123", "Chiloest123"));
-
-    }
-
 }

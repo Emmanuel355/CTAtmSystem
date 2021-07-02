@@ -3,6 +3,7 @@ This repo contains a Simple Banking System.
 
 # Objectives: 
 - Enable user Creation *
+- Generate Report **
 - Enable login(Simple login in v1)*
 - Enable change Password and details*
 - Enable manipulation of account data such as withdrawing and depositing after authentication

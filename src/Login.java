@@ -43,31 +43,4 @@ public class Login {
 
    }
 
-    public static void main(String[] args) {
-
-        //Give three chances
-
-        int counter = 3;
-        String access = "";
-        String pass = "";
-
-        while(counter > 0){
-            Scanner scan = new Scanner(System.in);
-            System.out.println("Please Enter A Password");
-            pass = scan.next();
-            access = grantAuth(FinalFiles.testAcc, pass);
-
-            if(access.equals(FinalFiles.AUTHSIG)){
-                System.out.println("Access Has Been Granted");
-                break;
-            }else {
-                System.out.println("Access Has not been Granted, You Have " + counter + " Chances Left");
-            }
-            counter--;
-        }
-
-
-    }
-
-
 }

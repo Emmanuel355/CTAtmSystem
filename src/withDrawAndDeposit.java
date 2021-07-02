@@ -62,7 +62,7 @@ public class withDrawAndDeposit {
 
     }
 
-    public static void firstTimeDeposit(int amount, String accountNumber){
+    public static String firstTimeDeposit(int amount, String accountNumber){
         try {
             Class.forName(FinalFiles.dataBaseDriver);
             Connection connection = DriverManager.getConnection(FinalFiles.LinuxDatabaseURL);
@@ -76,6 +76,32 @@ public class withDrawAndDeposit {
             System.out.println(exception);
 
         }
+
+        int bal = 0;
+        String returnVal = "";
+
+        //grab our balance
+        try {
+            Class.forName(FinalFiles.dataBaseDriver);
+            Connection connection = DriverManager.getConnection(FinalFiles.LinuxDatabaseURL);
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT Balance FROM Balance WHERE accountNumber = ? ");
+            preparedStatement.setString(1, accountNumber);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()){
+                bal = resultSet.getInt("Balance");
+            }
+
+
+        }catch (Exception exception){
+            System.out.println(exception);
+
+        }
+
+        returnVal = amount + " Has been deposited into your account, Your balance is: " + bal;
+
+       return returnVal;
+
     }
 
     public static String deposit(int amount, String accountNumber){
@@ -127,16 +153,7 @@ public class withDrawAndDeposit {
 
     }
 
-
-   /*
-    public int getAmount() {
-        return amount;
-    }
-
-    */
-
-
     public static void main(String[] args) {
-        System.out.println(deposit(120, FinalFiles.testAcc));
+       // System.out.println(deposit(100, FinalFiles.testAcc));
     }
 }

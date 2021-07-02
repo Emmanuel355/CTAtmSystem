@@ -5,7 +5,8 @@ import java.sql.PreparedStatement;
 public class forgotPassword {
 
 
-    public static void forgotPassword(String accountNumber, String newPassword){
+    public static String forgotPassword(String accountNumber, String newPassword){
+        String returnString = "";
         try {
             Class.forName(FinalFiles.dataBaseDriver);
             Connection connection = DriverManager.getConnection(FinalFiles.LinuxDatabaseURL);
@@ -13,12 +14,16 @@ public class forgotPassword {
             statement.setString(1, newPassword);
             statement.setString(2, accountNumber);
             statement.executeUpdate();
-            System.out.println("Password Change Successful");
+
+            returnString = "Password Reset Successfull, You can Now Login using Your New Password.";
+
 
 
         }catch (Exception exception){
             System.out.println(exception);
         }
+
+        return returnString;
 
     }
 
