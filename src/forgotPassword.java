@@ -8,9 +8,8 @@ public class forgotPassword {
     public static String forgotPassword(String accountNumber, String newPassword){
         String returnString = "";
         try {
-            Class.forName(FinalFiles.dataBaseDriver);
-            Connection connection = DriverManager.getConnection(FinalFiles.LinuxDatabaseURL);
-            PreparedStatement statement = connection.prepareStatement("Update Pass SET password = ? WHERE accountNumber = ?");
+
+            PreparedStatement statement = FinalFiles.connection().prepareStatement("Update Pass SET password = ? WHERE accountNumber = ?");
             statement.setString(1, newPassword);
             statement.setString(2, accountNumber);
             statement.executeUpdate();

@@ -9,9 +9,7 @@ public class Login {
     public static String getPassword(String accountNumber){
         String password = "";
         try{
-            Class.forName(FinalFiles.dataBaseDriver);
-            Connection connection = DriverManager.getConnection(FinalFiles.LinuxDatabaseURL);
-            PreparedStatement dataStatement = connection.prepareStatement("SELECT password FROM Pass WHERE accountNumber = ?");
+            PreparedStatement dataStatement = FinalFiles.connection().prepareStatement("SELECT password FROM Pass WHERE accountNumber = ?");
             dataStatement.setString(1, accountNumber);
             ResultSet resultSet = dataStatement.executeQuery();
 

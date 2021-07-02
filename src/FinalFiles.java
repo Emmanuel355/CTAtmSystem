@@ -1,4 +1,6 @@
 import javax.xml.crypto.Data;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
@@ -30,5 +32,20 @@ public class FinalFiles {
         return time;
     }
     static final String Date = date();
+
+
+    //Connection File
+    public static Connection connection(){
+        Connection connection = null;
+        try{
+            Class.forName(FinalFiles.dataBaseDriver);
+            connection = DriverManager.getConnection(FinalFiles.LinuxDatabaseURL);
+
+        }catch (Exception exception){
+            System.out.println(exception);
+        }
+
+        return connection;
+    }
 
 }

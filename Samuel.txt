@@ -1,0 +1,7 @@
+Your Account Has successfully Created with the following details: 
+ -- Samuel
+ -- 1892
+ -- 23rd
+ -- 0988281
+Your Account Number is: ACC61025020475
+Thank You for creating an account with us, You can Now access our Systems using your password and account number

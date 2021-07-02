@@ -9,9 +9,8 @@ public class Test {
     public static void main(String[] args) {
 
         try {
-            Class.forName(FinalFiles.dataBaseDriver);
-            Connection connection = DriverManager.getConnection(FinalFiles.WindowsDatabaseURL);
-            PreparedStatement preparedStatement = connection.prepareStatement("Insert Into Balance Values(?,?)");
+
+            PreparedStatement preparedStatement = FinalFiles.connection().prepareStatement("Insert Into Balance Values(?,?)");
             preparedStatement.setString(1, FinalFiles.testAcc);
             preparedStatement.setInt(2, 1000);
             preparedStatement.executeUpdate();
@@ -26,25 +25,6 @@ public class Test {
 
         System.out.println(FinalFiles.time());
 
-
-
-
-
-
-/*
-
-        double double_random = rand.nextDouble();
-        float float_random = rand.nextFloat();
-
-        for (int i = 0; i < 11; i++){
-            int int_random = rand.nextInt(10);
-            String kaya = Integer.toString(int_random);
-            number = number + kaya;
-        }
-
-        System.out.println(number);
-
- */
 
     }
 }

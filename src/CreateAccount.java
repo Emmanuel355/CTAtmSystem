@@ -16,8 +16,6 @@ public class CreateAccount {
     // upon creation, the users details are printed to a text file
     // returns a number
 
-
-
     public static String AccountCreation(String fullName, int regNumber, String address, String phoneNumber, String password,
                                   String reEnterPassword){
 
@@ -29,15 +27,10 @@ public class CreateAccount {
 
 
         // Generate a System generated Account number
-
-
-
         try {
             // Database Statements
-            Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
-            Connection connection = DriverManager.getConnection(FinalFiles.LinuxDatabaseURL);
-            PreparedStatement dataStatement = connection.prepareStatement("INSERT INTO Client VALUES(?,?,?,?,?)");
-            PreparedStatement dataStatement2 = connection.prepareStatement("INSERT INTO Pass VALUES(?,?)");
+            PreparedStatement dataStatement = FinalFiles.connection().prepareStatement("INSERT INTO Client VALUES(?,?,?,?,?)");
+            PreparedStatement dataStatement2 = FinalFiles.connection().prepareStatement("INSERT INTO Pass VALUES(?,?)");
 
             if (password.equals(reEnterPassword)){
                     for (int i = 0; i < 11; i++){
